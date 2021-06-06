@@ -1,30 +1,72 @@
 <script>
-	export let name;
+  import { onMount } from "svelte";
+  import { Stretch } from "svelte-loading-spinners";
+  import Response from "./Response.svelte";
+
+  let promise;
+  const URL = "https://www.boredapi.com/api/activity";
+
+  async function getActivity() {
+    let request = await fetch(URL);
+    let response = await request.json();
+
+    if (request.ok) {
+      console.log(response);
+      return response;
+    }
+    throw new Error("Unable to fetch data");
+  }
+
+  onMount(() => {
+    promise = getActivity();
+  });
+
+  function handleRequest() {
+    promise = getActivity();
+  }
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+  <button on:click={handleRequest}>Boredom on Boredom</button>
+  <div>
+    {#await promise}
+      <Stretch size="60" color="#FF3E00" unit="px" />
+      <p>...waiting</p>
+    {:then results}
+      {#if results}
+        <Response result={results} />
+      {/if}
+    {:catch error}
+      {error.message}
+    {/await}
+  </div>
 </main>
 
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
+<!-- <style>
+  * {
+    margin: 0;
+  }
+  p {
+    text-align: center;
+    font-size: 3rem;
+    color: white;
+    padding: 20px 60px;
+  }
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
+  main {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-</style>
+  div {
+    border: 2px solid green;
+    border-radius: 8px;
+    background-color: green;
+  }
+
+  div:hover {
+    box-shadow: 0px 0px 10px green;
+  }
+</style> -->
