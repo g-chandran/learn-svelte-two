@@ -7,11 +7,11 @@
 <div class="container">
   <span class="title">{result.activity}</span>
 
-  <p>Accessibility:</p>
+  <p>Accessibility</p>
   <div class="meter">
     <div class="measure" style="width: {accessibility}%;">{accessibility}%</div>
   </div>
-  <p>Price:</p>
+  <p>Price</p>
   <div class="meter">
     <div class="measure" style="width: {price}%;">{price}%</div>
   </div>
@@ -29,6 +29,13 @@
     font-size: x-large;
     color: orangered;
     font-weight: normal;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   h3 {

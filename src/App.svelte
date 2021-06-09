@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
-  import { Stretch } from "svelte-loading-spinners";
   import Response from "./Response.svelte";
+  import LoadingAnimation from "./LoadingAnimation.svelte";
 
   let promise;
   const URL = "https://www.boredapi.com/api/activity";
@@ -28,9 +28,10 @@
 
 <main>
   <button on:click={handleRequest}>Boredom on Boredom</button>
-  <div>
+  <div class="container">
     {#await promise}
-      <Stretch size="60" color="#FF3E00" unit="px" />
+      <!-- <Stretch size="60" color="#FF3E00" unit="px" /> -->
+      <LoadingAnimation />
       <p>...waiting</p>
     {:then results}
       {#if results}
@@ -42,31 +43,24 @@
   </div>
 </main>
 
-<!-- <style>
-  * {
-    margin: 0;
-  }
-  p {
-    text-align: center;
-    font-size: 3rem;
-    color: white;
-    padding: 20px 60px;
-  }
-
+<style>
   main {
-    height: 100vh;
+    height: 98vh;
+    margin: 0% auto;
     display: flex;
-    justify-content: center;
     align-items: center;
-  }
-
-  div {
-    border: 2px solid green;
+    justify-content: center;
+    flex-direction: column;
+    /* border: 2px solid orangered; */
+    width: 60%;
+    box-shadow: 0 0 10px orangered;
     border-radius: 8px;
-    background-color: green;
   }
 
-  div:hover {
-    box-shadow: 0px 0px 10px green;
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
-</style> -->
+</style>
